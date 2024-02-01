@@ -1,5 +1,7 @@
 from tkinter import*
 import sys
+from tkinter import messagebox
+
 root = Tk()
 root.geometry('470x320')
 root.resizable(0,0)
@@ -11,34 +13,41 @@ def insert():
     name = ent_fname.get()
     lname = ent_lname.get()
     city = ent_city.get()
-    tel = ent_tel.get()
+    tel = int(ent_tel.get())
     lstbox.insert(END,f'{name},{lname},{city},{tel}')
     ent_fname.delete(0,END)
     ent_lname.delete(0,END)
     ent_city.delete(0,END)
     ent_tel.delete(0,END)
     ent_fname.focus_set()
+
+
 def delete():
-    n = lstbox.curselection()
-    lstbox.delete(n)
+    mb = messagebox.askyesno(title="Delete",message="Do you want to Delete this item?")
+    if mb == True:
+        lstbox.delete(lstbox.curselection())
+    else:
+        pass
+
 def clear():
     ent_fname.delete(0,END)
     ent_lname.delete(0,END)
     ent_city.delete(0,END)
     ent_tel.delete(0,END)
+
+
 def fetch():
     clear()
-    n = lstbox.curselection()
-    data = lstbox.get(n)
-    lst = data.split(',')
+    lst = lstbox.get(lstbox.curselection()).split(',')
     ent_fname.insert(0,lst[0])
     ent_lname.insert(0,lst[1])
     ent_city.insert(0,lst[2])
     ent_tel.insert(0,lst[3])
-    lstbox.delete(n)
+    lstbox.delete(lstbox.curselection())
 
 def exit():
-    sys.exit(0)
+    sys.exit()
+    # or use this root.destroy 
 
 
 
@@ -56,6 +65,8 @@ lable_tel = Label(root,text='tel: ', font= ('IranNastaliq 12') , bg = '#0808d8' 
 lable_tel.place(x=240,y=50)
 
 #=============entry============
+
+# Is better consider a font for entries
 ent_fname = Entry(root , )
 ent_fname.place(x=100,y=20)
 
